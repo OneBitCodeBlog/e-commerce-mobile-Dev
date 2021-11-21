@@ -4555,6 +4555,11 @@ react-native-codegen@^0.0.6:
     jscodeshift "^0.11.0"
     nullthrows "^1.1.1"
 
+react-native-popable@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/react-native-popable/-/react-native-popable-0.4.3.tgz#6e08678d5768f1d2b4a0dd60604d6f7fdef31fde"
+  integrity sha512-khoK9TVLfJV+mBO5FTRx0eZip7djYVDfjaTRDhFPgVq2Exq9X6139Rfjg1sWHPvAQ2VCszTuC45o6iT373kFPw==
+
 react-native-svg@^12.1.1:
   version "12.1.1"
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-12.1.1.tgz#5f292410b8bcc07bbc52b2da7ceb22caf5bcaaee"
