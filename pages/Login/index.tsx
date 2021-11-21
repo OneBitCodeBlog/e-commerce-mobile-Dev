@@ -15,14 +15,41 @@ import brandOneBitCode from '../../assets/logo-bootcamp.png';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
+import loginSchema from './schema';
+import { ValidationError } from 'yup';
+
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
+  const [emailError, setEmailError] = useState<string>();
+  const [passwordError, setPasswordError] = useState<string>();
 
   const passwordRef = useRef<TextInput>(null);
 
   const handleLogin = async() => {
-    alert(email);
+    try {
+      setEmailError(undefined);
+      setPasswordError(undefined);
+
+      await loginSchema.validate(
+        { email, password },
+        { abortEarly: false}
+      );
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        error.inner.forEach(
+          error => {
+            if (error.path === 'email') {
+              setEmailError(error.message);
+            } else {
+              setPasswordError(error.message);
+            }
+          }
+        );
+
+        return;
+      }
+    }
   }
 
   return (
@@ -49,6 +76,7 @@ const Login: React.FC = () => {
               blurOnSubmit={false}
               autoCapitalize="none"
               returnKeyType="next"
+              error={emailError}
               onSubmitEditing={() => passwordRef?.current?.focus()}
             />
 
@@ -58,6 +86,7 @@ const Login: React.FC = () => {
               placeholder="Password"
               secureTextEntry={true}
               value={password}
+              error={passwordError}
               onChangeText={setPassword}
               onSubmitEditing={handleLogin}
             />
