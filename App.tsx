@@ -16,6 +16,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import Input from './components/Input';
+import Button from './components/Button';
 
 library.add(
   faEnvelope,
@@ -35,6 +36,7 @@ export default function App() {
       <Text>Hello World!</Text>
       <Input icon="envelope"/>
       <Input icon="key"/>
+      <Button text="Login" width="80%"/>
       <StatusBar style="auto" />
     </View>
   );
