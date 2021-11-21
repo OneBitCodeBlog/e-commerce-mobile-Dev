@@ -18,6 +18,8 @@ import Button from '../../components/Button';
 import loginSchema from './schema';
 import { ValidationError } from 'yup';
 
+import { useAuth } from '../../contexts/auth';
+
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
@@ -25,6 +27,7 @@ const Login: React.FC = () => {
   const [passwordError, setPasswordError] = useState<string>();
 
   const passwordRef = useRef<TextInput>(null);
+  const { setLoggedUser } = useAuth();
 
   const handleLogin = async() => {
     try {
@@ -35,6 +38,8 @@ const Login: React.FC = () => {
         { email, password },
         { abortEarly: false}
       );
+
+      setLoggedUser({id: 0, email, password});
     } catch (error) {
       if (error instanceof ValidationError) {
         error.inner.forEach(

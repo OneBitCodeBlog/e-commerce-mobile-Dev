@@ -15,7 +15,9 @@ import {
   faKey
 } from '@fortawesome/free-solid-svg-icons';
 
-import Login from './pages/Login';
+import { NavigationContainer } from '@react-navigation/native';
+import Routes from './routes';
+import AuthProvider from './contexts/auth';
 
 library.add(
   faEnvelope,
@@ -31,9 +33,13 @@ library.add(
 
 export default function App() {
   return (
-    <View style={{ flex: 1, backgroundColor: '#10163a'}}>
+    <NavigationContainer>
       <StatusBar style="light" backgroundColor="#10163a" translucent/>
-      <Login/>
-    </View>
+      <AuthProvider>
+        <View style={{ flex: 1, backgroundColor: '#10163a' }}>
+          <Routes/>
+        </View>
+      </AuthProvider>
+    </NavigationContainer>
   );
 }
