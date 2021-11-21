@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
@@ -15,8 +15,7 @@ import {
   faKey
 } from '@fortawesome/free-solid-svg-icons';
 
-import Input from './components/Input';
-import Button from './components/Button';
+import Login from './pages/Login';
 
 library.add(
   faEnvelope,
@@ -32,21 +31,9 @@ library.add(
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Hello World!</Text>
-      <Input icon="envelope"/>
-      <Input icon="key"/>
-      <Button text="Login" width="80%"/>
-      <StatusBar style="auto" />
+    <View style={{ flex: 1, backgroundColor: '#10163a'}}>
+      <StatusBar style="light" backgroundColor="#10163a" translucent/>
+      <Login/>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#aca',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
