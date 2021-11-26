@@ -69,6 +69,8 @@ api.interceptors.request.use(
       const apiData: ApiData = JSON.parse(savedApiData);
       req.headers = { ...req.headers, ...apiData };
     }
+
+    return req;
   }
 );
 

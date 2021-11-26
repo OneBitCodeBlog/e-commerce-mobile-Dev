@@ -6,7 +6,8 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Platform,
-  TextInput
+  TextInput,
+  Alert
 } from 'react-native';
 
 import brandImage from '../../assets/logo-games.png';
@@ -17,12 +18,14 @@ import Button from '../../components/Button';
 
 import loginSchema from './schema';
 import { ValidationError } from 'yup';
+import UserService from '../../services/user';
 
 import { useAuth } from '../../contexts/auth';
 
+
 const Login: React.FC = () => {
-  const [email, setEmail] = useState<string>();
-  const [password, setPassword] = useState<string>();
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const [emailError, setEmailError] = useState<string>();
   const [passwordError, setPasswordError] = useState<string>();
 
@@ -39,7 +42,9 @@ const Login: React.FC = () => {
         { abortEarly: false}
       );
 
-      setLoggedUser({id: 0, email, password});
+      const response = await UserService.signIn({ email, password });
+
+      setLoggedUser(response.data);
     } catch (error) {
       if (error instanceof ValidationError) {
         error.inner.forEach(
@@ -54,6 +59,13 @@ const Login: React.FC = () => {
 
         return;
       }
+
+      if (error instanceof Error) {
+        Alert.alert('Erro', error.message);
+        return;
+      }
+
+      alert(error);
     }
   }
 
