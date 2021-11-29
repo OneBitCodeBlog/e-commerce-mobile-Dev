@@ -1,14 +1,17 @@
 import React from 'react';
 import AuthRoutes from './auth.routes';
 import AppRoutes from './app.routes';
+import Loading from '../components/Loading';
 
 import { useAuth } from '../contexts/auth';
 
 const Routes: React.FC = () => {
-  const { loggedUser } = useAuth();
+  const { loggedUser, isLoading } = useAuth();
 
   return (
-    loggedUser ? <AppRoutes/> : <AuthRoutes/>
+    isLoading ?
+      <Loading/> :
+      loggedUser ? <AppRoutes/> : <AuthRoutes/>
   );
 }
 
