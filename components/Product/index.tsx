@@ -45,25 +45,23 @@ const styles = StyleSheet.create({
     maxHeight: 200,
     minHeight: 200,
     width: '100%',
-    marginBottom: 10,
+    marginBottom: 5,
     borderRadius: 5
   },
   title: {
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom:10
   },
   header: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: 10
   },
   description: {
     color: '#fff',
-    flex: 3
+    flex: 1
   },
   icon: {
     color: '#fff',
