@@ -1,34 +1,54 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 import productImage from '../../assets/product_image.png';
 import Badge from '../../components/Badge';
 
+import { useNavigation } from '@react-navigation/core';
+import useSWR from 'swr';
+import ProductService from '../../services/product';
+import { format, parseJSON } from 'date-fns';
+
 const ProductInfo: React.FC = () => {
+  const navigation = useNavigation();
+
+  const { data, error } = useSWR(
+    `storefront/v1/products/${navigation.getState().routes[1]?.params?.id}`,
+    ProductService.show
+  );
+
+  useEffect(() => {
+    if (error) {
+      alert(error);
+      console.log(error);
+    }
+  }, [error]);
+
   return (
     <ScrollView
       style={styles.container}
       contentContainerStyle={styles.content}>
       
       <Image
-        source={productImage}
+        source={{ uri: data?.image_url}}
         style={styles.image}
       />
 
       <View>
         <Text style={styles.title}>
-          Product
+          {data?.name}
         </Text>
 
         <View style={styles.categories}>
-          <Badge text="Action"/>
-          <Badge text="FPS"/>
-          <Badge text="RPG"/>
+          {
+            data?.categories?.map(
+              category => 
+              <Badge text={category.name} key={category.id}/>
+            )
+          }
         </View>
 
         <Text style={styles.description}>
-          Rerum labore quisquam aliquid quasi sunt sit aut aut quas.
-          Rerum labore quisquam aliquid quasi sunt sit aut aut quas.
-          Rerum labore quisquam aliquid quasi sunt sit aut aut quas.
+          {data?.description}
         </Text>
       </View>
 
@@ -36,34 +56,47 @@ const ProductInfo: React.FC = () => {
         <View style={styles.developerInfo}>
           <View style={styles.infoData}>
             <Text style={styles.boldText}>Desenvolvedora</Text>
-            <Text style={styles.whiteText}>OneBitCode</Text>
+            <Text style={styles.whiteText}>{ data?.developer }</Text>
           </View>
 
           <View style={styles.infoData}>
             <Text style={styles.boldText}>Modo</Text>
-            <Text style={styles.whiteText}>PVE</Text>
+            <Text style={styles.whiteText}>
+              {
+                data?.mode === 'both' ? 'PVP e PVE' : data?.mode
+              }
+            </Text>
           </View>
 
           <View style={styles.infoData}>
             <Text style={styles.boldText}>Status</Text>
-            <Text style={styles.whiteText}>Disponível</Text>
+            <Text style={styles.whiteText}>
+              {
+                data?.status === 'available' ? 'Disponível' : 'Indisponível'
+              }
+            </Text>
           </View>
         </View>
 
         <View style={styles.info}>
           <View style={styles.infoData}>
             <Text style={styles.boldText}>Lançamento</Text>
-            <Text style={styles.whiteText}>10/10/2021</Text>
+            <Text style={styles.whiteText}>
+              {
+                data?.release_date && 
+                  format(parseJSON(data.release_date), 'dd/MM/yyyy')
+              }
+            </Text>
           </View>
 
           <View style={styles.infoData}>
             <Text style={styles.boldText}>Vendidos</Text>
-            <Text style={styles.whiteText}>10</Text>
+            <Text style={styles.whiteText}>{ data?.sells_count }</Text>
           </View>
 
           <View style={styles.infoData}>
             <Text style={styles.boldText}>Favoritado</Text>
-            <Text style={styles.whiteText}>153</Text>
+            <Text style={styles.whiteText}>{ data?.favorited_count }</Text>
           </View>
         </View>
       </View>
@@ -75,27 +108,27 @@ const ProductInfo: React.FC = () => {
 
         <View style={styles.systemRequirementsData}>
           <Text style={styles.boldText}>SO: </Text>
-          <Text style={styles.whiteText}>Windows 7</Text>
+          <Text style={styles.whiteText}>{ data?.system_requirement?.operational_system }</Text>
         </View>
 
         <View style={styles.systemRequirementsData}>
           <Text style={styles.boldText}>Armazenamento: </Text>
-          <Text style={styles.whiteText}>5GB</Text>
+          <Text style={styles.whiteText}>{ data?.system_requirement?.storage }</Text>
         </View>
 
         <View style={styles.systemRequirementsData}>
           <Text style={styles.boldText}>Processador: </Text>
-          <Text style={styles.whiteText}>AMD Ryzen 7</Text>
+          <Text style={styles.whiteText}>{ data?.system_requirement?.processor }</Text>
         </View>
 
         <View style={styles.systemRequirementsData}>
           <Text style={styles.boldText}>Memória: </Text>
-          <Text style={styles.whiteText}>2GB</Text>
+          <Text style={styles.whiteText}>{ data?.system_requirement?.memory }</Text>
         </View>
 
         <View style={styles.systemRequirementsData}>
           <Text style={styles.boldText}>Placa de Vídeo: </Text>
-          <Text style={styles.whiteText}>N/A</Text>
+          <Text style={styles.whiteText}>{ data?.system_requirement?.video_board }</Text>
         </View>
       </View>
     </ScrollView>
