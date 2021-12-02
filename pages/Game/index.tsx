@@ -1,16 +1,29 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import RouteProduct from '../../DTOs/routeProduct';
+
+import GameLicenses from '../GameLicenses';
+import GamesList from '../GamesList';
+
+const Stack = createNativeStackNavigator();
 
 const Games: React.FC = () => {
   return (
-    <View style={{ 
-      flex: 1, 
-      backgroundColor: '#10163a', 
-      alignItems: 'center',
-      justifyContent: 'center'
-    }}>
-      <Text style={{ color: '#fff', fontSize: 26 }}>Games</Text>
-    </View>
+    <Stack.Navigator>
+      <Stack.Screen
+        name="GamesList"
+        component={GamesList}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="GameLicenses"
+        component={GameLicenses}
+        options={
+          ({route}) => ({ title: (route?.params as RouteProduct)?.name })
+        }
+      />
+    </Stack.Navigator>
   );
 }
 
