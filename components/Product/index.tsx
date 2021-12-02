@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
 
 import productImage from '../../assets/product_image.png';
 
@@ -9,6 +10,29 @@ interface ProductProps {
 };
 
 const Product: React.FC<ProductProps> = ({ type = 'home' }) => {
+  const icon = 
+    type === 'wishlist' ? 'heart' : 
+    type === 'games' ? 'key' : 'info-circle';
+
+  const iconStyle = type === 'wishlist' ? styles.redIcon : styles.icon;
+
+  const navigation = useNavigation();
+
+  const handleIconPress = () => {
+    let product = { id: 1, name: 'Product' };
+
+    switch(type) {
+      case 'wishlist':
+        break;
+      case 'games':
+        navigation.navigate('GameLicenses', product);
+        break;
+      default: 
+        navigation.navigate('ProductInfo', product);
+        break;
+    }
+  }
+
   return (
     <View style={styles.container}>
       <Image style={styles.image} source={productImage}/>
@@ -16,8 +40,8 @@ const Product: React.FC<ProductProps> = ({ type = 'home' }) => {
       <View style={styles.header}>
         <Text style={styles.title}>Product</Text>
 
-        <TouchableOpacity>
-          <FontAwesomeIcon icon="info-circle" style={styles.icon} size={20}/>
+        <TouchableOpacity onPress={handleIconPress}>
+          <FontAwesomeIcon icon={icon} style={iconStyle} size={20}/>
         </TouchableOpacity>
       </View>
 
@@ -65,6 +89,10 @@ const styles = StyleSheet.create({
   },
   icon: {
     color: '#fff',
+    marginBottom: 5
+  },
+  redIcon: {
+    color: '#f22',
     marginBottom: 5
   }
 });
