@@ -1,23 +1,33 @@
 import React from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
 
 import Product from '../Product';
+import ListProduct from '../../DTOs/listProduct';
 
 interface ProductListProps {
-  products: Array<number>;
+  products: ListProduct[];
   type?: 'home' | 'games' | 'wishlist';
+  handleUpdate?: any;
+  isLoading?: boolean;
 }
 
-const ProductList: React.FC<ProductListProps> = ({ products, type = 'home' }) => {
+const ProductList: React.FC<ProductListProps> = 
+  ({ products, type = 'home', handleUpdate, isLoading = false }) => {
   return (
     <View style={styles.container}>
       <FlatList
         style={styles.content}
         data={products}
-        keyExtractor={product => product.toString()}
+        keyExtractor={product => product?.id?.toString()}
         renderItem={({item}) => {
-          return  <Product type={type}/> 
+          return  <Product product={item} type={type}/> 
         }}
+        onEndReached={handleUpdate}
+        ListFooterComponent={() => (
+          isLoading ?
+            <ActivityIndicator size="large" color="white"/> :
+            <></>
+        )}
       />
     </View>
   );

@@ -48,7 +48,7 @@ const Store = () => {
   }
 
   useEffect(() => {
-    if (products && data && !products.includes(data)) {
+    if (products && data && !data?.some(d => products.includes(d))) {
       let prods = [...products, ...data];
       setProducts(prods);
     }

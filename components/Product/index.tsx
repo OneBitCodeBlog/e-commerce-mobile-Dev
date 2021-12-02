@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 
 import productImage from '../../assets/product_image.png';
 
+import ListProduct from '../../DTOs/listProduct';
+
 interface ProductProps {
   type?: 'home' | 'games' | 'wishlist';
+  product: ListProduct;
 };
 
-const Product: React.FC<ProductProps> = ({ type = 'home' }) => {
+const Product: React.FC<ProductProps> = memo(({ type = 'home', product }) => {
   const icon = 
     type === 'wishlist' ? 'heart' : 
     type === 'games' ? 'key' : 'info-circle';
@@ -19,8 +22,6 @@ const Product: React.FC<ProductProps> = ({ type = 'home' }) => {
   const navigation = useNavigation();
 
   const handleIconPress = () => {
-    let product = { id: 1, name: 'Product' };
-
     switch(type) {
       case 'wishlist':
         break;
@@ -35,10 +36,10 @@ const Product: React.FC<ProductProps> = ({ type = 'home' }) => {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={productImage}/>
+      <Image style={styles.image} source={{ uri: product?.image_url }}/>
 
       <View style={styles.header}>
-        <Text style={styles.title}>Product</Text>
+        <Text style={styles.title}>{ product?.name }</Text>
 
         <TouchableOpacity onPress={handleIconPress}>
           <FontAwesomeIcon icon={icon} style={iconStyle} size={20}/>
@@ -46,12 +47,11 @@ const Product: React.FC<ProductProps> = ({ type = 'home' }) => {
       </View>
 
       <Text style={styles.description} numberOfLines={2}>
-        Voluptatibus rerum esse. Amet error reiciendis 
-        totam laudantium molestiae in. Et accusantium optio sit.
+        { product?.description }
       </Text>
     </View>
   );  
-}
+});
 
 const styles = StyleSheet.create({
   container: {
