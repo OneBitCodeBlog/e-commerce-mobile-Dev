@@ -1,19 +1,30 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import ProductInfo from '../ProductInfo';
+import Store from '../Store';
+
+import RouteProduct from '../../DTOs/routeProduct';
+
+const Stack = createNativeStackNavigator();
 
 const Home = () => {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#10163a'
-      }}
-    >
-      <Text style={{fontSize: 20, color: '#fff'}}>Home</Text>
-    </View>
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Store"
+        component={Store}
+        options={{ headerShown: false }}
+      />
 
+      <Stack.Screen
+        name="ProductInfo"
+        component={ProductInfo}
+        options= {
+          ({route}) => ({ title: (route?.params as RouteProduct)?.name })
+        }
+      />
+    </Stack.Navigator>
   );
 }
 
