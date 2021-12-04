@@ -3,9 +3,10 @@ import { View, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
 
 import Product from '../Product';
 import ListProduct from '../../DTOs/listProduct';
+import Game from '../../DTOs/game';
 
 interface ProductListProps {
-  products: ListProduct[];
+  products: ListProduct[] | Game[] | undefined;
   type?: 'home' | 'games' | 'wishlist';
   handleUpdate?: any;
   isLoading?: boolean;
