@@ -1,4 +1,5 @@
 import RouteProduct from '../DTOs/routeProduct';
+import Game from '../DTOs/game';
 
 declare global {
   declare module '*.png';
@@ -7,7 +8,7 @@ declare global {
     interface RootParamList extends RootStackParamList {
       Login: undefined;
       ProductInfo: RouteProduct;
-      GameLicenses: RouteProduct;
+      GameLicenses: Game;
     }
   }
 }

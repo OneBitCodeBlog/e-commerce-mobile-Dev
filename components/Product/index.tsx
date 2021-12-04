@@ -3,9 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 
-import productImage from '../../assets/product_image.png';
-
 import ListProduct from '../../DTOs/listProduct';
+import Game from '../../DTOs/game';
 
 interface ProductProps {
   type?: 'home' | 'games' | 'wishlist';
@@ -26,7 +25,7 @@ const Product: React.FC<ProductProps> = memo(({ type = 'home', product }) => {
       case 'wishlist':
         break;
       case 'games':
-        navigation.navigate('GameLicenses', product);
+        navigation.navigate('GameLicenses', product as Game);
         break;
       default: 
         navigation.navigate('ProductInfo', product);
