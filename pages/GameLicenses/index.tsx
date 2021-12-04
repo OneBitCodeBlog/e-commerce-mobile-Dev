@@ -1,62 +1,48 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
-import productImage from '../../assets/product_image.png';
-import Badge from '../../components/Badge';
+
+import { useNavigation } from '@react-navigation/core';
+import Game from '../../DTOs/game';
 
 const GameLicenses: React.FC = () => {
+  const navigation = useNavigation();
+
+  const product = navigation.getState().routes[1]?.params as Game;
+
   return (
     <ScrollView
       style={styles.container}
       contentContainerStyle={styles.content}
     >
       <Image 
-        source={productImage}
+        source={{ uri: product?.image_url }}
         style={styles.image}
       />
       
       <View>
         <Text style={styles.title}>
-          Product
+          { product?.name }
         </Text>
 
-        <View style={styles.categories}>
-          <Badge text="Action"/>
-          <Badge text="FPS"/>
-          <Badge text="RPG"/>
-        </View>
-
         <Text style={styles.description}>
-          Rerum labore quisquam aliquid quasi sunt sit aut aut quas.
-          Rerum labore quisquam aliquid quasi sunt sit aut aut quas.
-          Rerum labore quisquam aliquid quasi sunt sit aut aut quas.
+          { product?.description }
         </Text>
       </View>
 
       <Text style={styles.title}>Chaves</Text>
       <View style={styles.keysContainer}>
-        <Text
-          style={styles.key}
-          selectable={true}>
-          1 - 15e4936566541574938dfb1c0aded7addc5991c
-        </Text>
-
-        <Text
-          style={styles.key}
-          selectable={true}>
-          2 - d54d48e2e3d2bd522d932162dcc284f8cdeca4d
-        </Text>
-
-        <Text
-          style={styles.key}
-          selectable={true}>
-          3 - ed51f637cf4b6074d1291e1e453db52ca792d25
-        </Text>
-
-        <Text
-          style={styles.key}
-          selectable={true}>
-          4 - 04e9e6b61ed3d3e2723735598e614ed26b5167
-        </Text>
+        {
+          product?.licenses?.map(
+            (license, index) => 
+              <Text
+                style={styles.key}
+                selectable={true}
+                key={index}
+              >
+                {index+1} - {license}
+              </Text>
+          )
+        }
       </View>
     </ScrollView>
   );
